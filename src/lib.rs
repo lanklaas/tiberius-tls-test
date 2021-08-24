@@ -7,7 +7,6 @@ use tokio_util::compat::{Compat, TokioAsyncWriteCompatExt};
 
 pub const CONNECTION_QUERY: &str = "SELECT 1";
 
-/// Entrypoint for creating other types in this lib.
 #[derive(Debug)]
 pub struct MetaDb {
     config: Config,
@@ -38,8 +37,6 @@ pub struct MetaDbConnection {
     connection: Client<Compat<TcpStream>>,
 }
 
-//TODO: The edge case with the connection monitor is that a query grabs the lock before this does and if the query is
-// not the token check query it will hang. We need to wrap all queries as timed queries.
 impl MetaDbConnection {
     pub fn client_mut(&mut self) -> &mut Client<Compat<TcpStream>> {
         &mut self.connection
